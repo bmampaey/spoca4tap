@@ -1,0 +1,68 @@
+Name,Type,Unit,Description,UCD,Fixed value,Example
+granule_uid,Text,,Unique ID in the data service of a coronal hole detection,meta.id,,spoca_coronalhole_7_20100513_000050
+granule_gid,Text,,Common ID to granules of same coronal hole,meta.id,,spoca_coronalhole_7
+obs_id,Text,,Associates granules derived from the same observation,meta.id;obs,,aia_193_20100513_000050
+dataproduct_type,Text,,"Organization of the data product, from enumerated list",meta.code.class,ci,ci
+target_name,Text,,Standard IAU name of target,meta.id;src,Sun,Sun
+target_class,Text,,Type of target,src.class,Star,Star
+time_min,Double,d,Start time (in JD) UTC measured at time_origin location,time.start;obs,,2455329.50057969
+time_max,Double,d,Stop time (in JD) UTC measured at time_origin location,time.end;obs,,2455329.50057969
+spectral_range_min,Double,Hz,Min spectral range (as frequency) of the observation,em.freq;stat.min,19.3 nm,1.55332879792746E+016
+spectral_range_max,Double,Hz,Max spectral range (as frequency) of the observation,em.freq;stat.max,19.3 nm,1.55332879792746E+016
+c1min,Double,deg,Min helioprojective longitude of bounding box,pos.eq.ra;stat.min,,-0.118249832105745
+c1max,Double,deg,Max helioprojective longitude of bounding box,pos.eq.ra;stat.max,,0.129416446575417
+c2min,Double,deg,Min helioprojective latitude of bounding box,pos.eq.dec;stat.min,,-0.26358091254403
+c2max,Double,deg,Max helioprojective latitude of bounding box,pos.eq.dec;stat.max,,-0.204248613773513
+spatial_frame_type,Text,,"Flavor of coordinate system, defines the nature of coordinates",meta.code.class;pos.frame,celestial,celestial
+instrument_host_name,Text,,Standard name of the spacecraft,meta.id;instr.obsty,Solar Dynamics Observatory#SDO,Solar Dynamics Observatory#SDO
+instrument_name,Text,,Standard name of instrument,meta.id;instr,Atmospheric Imaging Assembly#AIA,Atmospheric Imaging Assembly#AIA
+processing_level,Integer,,Simplified CODMAC calibration level,meta.calibLevel,5,5
+processing_level_desc,Text,,Describes specificities of the processing level,meta.note,CODMAC (Derived Data Record),CODMAC (Derived Data Record)
+creation_date,Timestamp,,Date of first entry of this granule,time.creation,,2022-09-30T10:04:35.241
+modification_date,Timestamp,,Date of last modification,time.processing,,2022-09-30T10:04:35.241
+release_date,Timestamp,,Start of public access period,time.release,,2022-09-30T10:04:35.241
+service_title,Text,,Title of resource,meta.title,ROB SPoCA-CH,ROB SPoCA-CH
+access_url,Text,,URL of the data file,meta.ref.url;meta.file,,https://spoca.oma.be/spoca4tap/aia_science_level2/ch_map/20100513_000000.ChMap.fits
+access_format,Text,,RFC 2045 media type (mime),meta.code.mime,application/fits,application/fits
+access_estsize,Integer,kbyte,Estimate file size in kbyte,phys.size;meta.file,,587.52
+thumbnail_url,Text,,URL of a thumbnail image,meta.ref.url;meta.preview,,https://spoca.oma.be/spoca4tap/aia_science_level2/ch_map_overlay/20100513_000000.ChMap.png
+datalink_url,Text,,Provides links to files or services on the server,meta.ref.url,,
+target_region,Text,,Type of region or feature of interest,meta.id;src;obs.field,solar-corona,solar-corona
+feature_name,Text,,Standard name of a region of interest,meta.id;src;obs.field,coronal hole,coronal hole
+publisher,Text,,Resource publisher,meta.curation,Royal Observatory of Belgium,Royal Observatory of Belgium
+spatial_coordinate_description,Text,,ID of specific coordinate system and version / properties,meta.code.class;pos.frame,HPC,HPC
+spatial_origin,Text,,Defines the frame origin,meta.ref;pos.frame,HELIOCENTER,HELIOCENTER
+time_scale,Text,,Always UTC in data services,time.scale,UTC,UTC
+target_distance_min,Double,km,Min observer-target distance,pos.distance;stat.min,,151148614.476043
+target_distance_max,Double,km,Max observer-target distance,pos.distance;stat.max,,151148614.476043
+observer_lon,Double,deg,Observer's heliographic longitude,obs.observer;pos.bodyrc.lon,,-0.0109854901170933
+observer_lat,Double,deg,Observer's heliographic latitude,obs.observer;pos.bodyrc.lat,,-2.92629353236477
+ch_c1_centroid,Double,deg,Helioprojective longitude of the centroid of the coronal hole,pos.eq.ra;pos.centroid,,0.0340606851924542
+ch_c2_centroid,Double,deg,Helioprojective latitude of the centroid of the coronal hole,pos.eq.dec;pos.centroid,,-0.244238424254924
+ch_area_projected,Double,arcsec²,Area of the coronal hole as seen by the observer,phys.area,,49793.040000064
+ch_area_projected_error,Double,arcsec²,Uncertainety of the area of the coronal hole as seen by the observer,stat.error;phys.area,,2523.90235679392
+ch_area_deprojected,Double,km²,Estimation of the area of the coronal hole on the solar photosphere,phys.area,,128258785536.591
+ch_area_deprojected_error,Double,km²,Uncertainety of the estimation of the area of the coronal hole on the solar photosphere,stat.error;phys.area,,8220229778.60027
+ch_area_pixels,Integer,pix,Number of pixels of the cornal hole in the map,phys.area;instr.pixel,,138314
+ch_stat_aia_image,Text,,Image onto which the cornal hole statistics are computed,meta.id;obs.image,,SDO/AIA 193Å 2010-05-13T00:00:50Z level2
+ch_stat_aia_sample_size,Integer,pix,"Number of pixels of the cornal hole used to compute the statistics, the statistics are computed up to 0.95 solar radius",meta.number;instr.pixel,,51568
+ch_stat_aia_max,Double,DN/s,Maximum of pixels values of the cornal hole,phot.count;stat.max,,77.0566889974074
+ch_stat_aia_min,Double,DN/s,Minimum of pixels values of the cornal hole,phot.count;stat.min,,16.5962217138002
+ch_stat_aia_median,Double,DN/s,Median of pixels values of the cornal hole,phot.count;stat.median,,44.3089039923992
+ch_stat_aia_mean,Double,DN/s,Mean of pixels values of the cornal hole,phot.count;stat.mean,,44.5824802260685
+ch_stat_aia_variance,Double,,Variance of pixels values of the cornal hole,stat.variance;phot.count,,108.101793480328
+ch_stat_aia_skewness,Double,,Skewness of pixels values of the cornal hole,phot.count;stat.skewness,,0.126890828400498
+ch_stat_aia_kurtosis,Double,,Kurtosis of pixels values of the cornal hole,phot.count;stat.kurtosis,,-0.489434730509215
+ch_stat_aia_first_quartile,Double,DN/s,First quartile of pixels values of the cornal hole,stat.rank;phot.count,,36.684319863837
+ch_stat_aia_third_quartile,Double,DN/s,Third quartile of pixels values of the cornal hole,stat.rank;phot.count,,51.9198995481782
+ch_stat_hmi_image,Text,,Image onto which the cornal hole statistics are computed,meta.id;obs.image,,SDO/HMI magnetogram 2010-05-13T00:00:38Z level1.5
+ch_stat_hmi_sample_size,Integer,pix,"Number of pixels of the cornal hole used to compute the statistics, the statistics are computed up to 0.95 solar radius",meta.number;instr.pixel,,50737
+ch_stat_hmi_max,Double,Gauss,Maximum of the magnetic field of the cornal hole,phys.magField;stat.max,,177.439682006836
+ch_stat_hmi_min,Double,Gauss,Minimum of the magnetic field of the cornal hole,phys.magField;stat.min,,-65.9021835327148
+ch_stat_hmi_median,Double,Gauss,Median of the magnetic field of the cornal hole,phys.magField;stat.median,,0.775693774223328
+ch_stat_hmi_mean,Double,Gauss,Mean of the magnetic field of the cornal hole,phys.magField;stat.mean,,1.16729281387595
+ch_stat_hmi_variance,Double,,Variance of the magnetic field of the cornal hole,stat.variance;phys.magField,,155.50321388627
+ch_stat_hmi_skewness,Double,,Skewness of the magnetic field of the cornal hole,phys.magField;stat.skewness,,1.16492028545104
+ch_stat_hmi_kurtosis,Double,,Kurtosis of the magnetic field of the cornal hole,phys.magField;stat.kurtosis,,9.10278802328483
+ch_stat_hmi_first_quartile,Double,Gauss,First quartile of the magnetic field of the cornal hole,stat.rank;phys.magField,,-6.44668197631836
+ch_stat_hmi_third_quartile,Double,Gauss,Third quartile of the magnetic field of the cornal hole,stat.rank;phys.magField,,8.14667320251465

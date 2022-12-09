@@ -1,0 +1,7 @@
+Name,Mandatory,Type,Unit,Description,UCD,Semantic,Example
+granule_uid,TRUE,Text,,The granule_uid of the detection ,meta.id,,spoca_coronalhole_7_20100513_000050
+source_aia_image,FALSE,Text,,URL of the AIA image used for the coronal hole detection,meta.ref.url;meta.file,progenitor,http://sdo.oma.be/data/aia_science_level2/0193/2010/05/13/AIA.20100513_000048.0193.image_lev2.fits
+ch_stat_aia_image,FALSE,Text,,URL of the AIA image onto which the coronal hole statistics are computed ,meta.ref.url;meta.file,progenitor,http://sdo.oma.be/data/aia_science_level2/0193/2010/05/13/AIA.20100513_000048.0193.image_lev2.fits
+ch_stat_hmi_image,FALSE,Text,,URL of the HMI image onto which the coronal hole statistics are computed ,meta.ref.url;meta.file,progenitor,http://sdo.oma.be/data/AIA_HMI_1h_synoptic/hmi.m_45s.prepped/2010/05/13/HMI.20100513_000038.magnetogram_prepped.fits
+thumbnail_url,FALSE,Text,,URL of a thumbnail image,meta.ref.url;meta.preview,preview,https://spoca.oma.be/spoca4tap/aia_science_level2/ch_map_overlay/20100513_000000.ChMap.png
+provenance,FALSE,Text,,URL of the provenance file in JSON,meta.ref.url;meta.file,documentation,https://spoca.oma.be/spoca4tap/aia_science_level2/provenance/20100513_000000.prov.json

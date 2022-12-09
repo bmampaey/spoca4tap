@@ -1,0 +1,5 @@
+Name,Mandatory,Type,Unit,Description,UCD,Example
+previous,FALSE,Text,,The granule_uid of the detection,meta.id,spoca_coronalhole_7_20100513_000050
+next,FALSE,Text,,The granule_uid of the detection,meta.id,spoca_coronalhole_7_20100513_060438
+overlap_area_projected,FALSE,Double,arcsec²,Size in arcsec² of the overlap between the 2 detections,phys.area,44461.44
+overlap_area_pixels,FALSE,Double,pix,Size in pixels of the overlap between the 2 detections,phys.area;instr.pixel,123504

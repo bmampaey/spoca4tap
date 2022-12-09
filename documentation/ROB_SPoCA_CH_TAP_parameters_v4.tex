@@ -1,0 +1,360 @@
+\documentclass{article}
+
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+%\usepackage[USenglish,british,american,australian,english]{babel}
+\usepackage{dirtree}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage{subcaption}
+\usepackage{longtable}
+\usepackage{amsmath}
+\usepackage{amssymb}
+%\usepackage[margin=1in]{geometry}
+\usepackage{comment}
+\usepackage{xcolor}
+\usepackage{verbatim}
+\usepackage{url}
+
+% Version:
+%v3 of document: without tables from USET (put as comment), and with specific questions for ESCAPE and VESPA partners
+% only two tables: uset_drawing et uset_group
+
+\title{EPN-TAP parameters for 'SPoCA-CH' TAP service}
+\author{Veronique Delouille, Freek Verstringe, Jesse Andries, Benjamin Mampaey}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\section{Description of service}
+This document presents the variables names for a TAP service that would contain a SPoCA-CH catalog. The parameters of the algorithm are similar to the one used for the EventDB, but there are a few differences:
+
+\begin{enumerate}
+\item AIA level 1.5 images (aia\_prep'ed images) are used
+\item only the CH who live more than three days are reported, similarly to what is done in the HEK
+\item we add a bounding box (c1min, c1max, c2min, c2max)
+\item We do not provide the contours, but rather the  URL of  CH maps (FITS file) . Each coronal hole has a color in this map, which is kept the same over time (tracking).
+\item Cadence: one AIA image every 6 hours.
+\item Pixel intensity statistics for both AIA and HMI  modelities are provided
+\item AIA degradation is corrected for, to allow meaningful statistical studies over time
+\end{enumerate}
+
+We propose to have a main table, and a tracking table. The most useful information will be in the main table (including link to CH maps). If user is interested in the more detail information about tracking, it can be found in the corresponding table.
+
+\newpage
+\section{EPN-parameters that are global to the service}
+
+\begin{longtable}{|p{4.5cm}|p{3.5cm}|p{2.5cm}|p{3.5cm}|}
+\hline
+EPN-TAP param                         & value                             & UCD                         & Description \\
+\hline
+\textcolor{red}{service\_title}       & ROB SPoCA-CH                      & meta.title                  & Name of EPN-TAP service \\
+\hline
+\textcolor{red}{creation\_date}       & Timestamp (IS0-8601 String)       & time.creation               & creation date of TAP service \\
+\hline
+\textcolor{red}{release\_date}        & Timestamp (IS0-8601 String)       & time.release                & Start of public access period (set to creation\_date if no proprietary period ) \\
+\hline
+\textcolor{red}{modification\_date}   & Timestamp (IS0-8601 String)       & time.processing             & Last update of TAP service \\
+\hline
+instrument\_host\_name                & Solar Dynamics Observatory\#SDO   & meta.id; instr.obsty        & NSSDCA ID='2010-005A', from https://nssdc.gsfc.nasa.gov/nmc/ \\
+\hline
+instrument\_name                      & Atmospheric Imaging Assembly\#AIA & meta.id; instr              & name of instrument \\
+\hline
+\textcolor{red}{dataproduct\_type}    & "ci"                              & meta.code.class             & catalog\_item is provided by the service \\
+\hline
+target\_name                          & "Sun"                             & meta.id; src                & Standard IAU name of target (must match target\_class) \\
+\hline
+\textcolor{red}{target\_class}        & "Star"                            & src.class                   & \\
+\hline
+\textcolor{red}{spatial\_frame\_type} & "celestial"                       &                             & \\
+\hline
+spectral\_range\_min                  & 19.3nm (to be expressed in Hz)    & em.freq; stat.min           & \\
+\hline
+spectral\_range\_max                  & 19.3nm (to be expressed in Hz)    & em.freq; stat.max           & \\
+\hline
+access\_url                           &                                   & meta.ref.url; meta.file     & URL of Coronal hole map, case sensitive. If present, next two parameters must also be present \\
+\hline
+access\_format                        & application/fits                  & meta.code.mime              & file format \\
+\hline
+access\_estsize                       &                                   & phys.size; meta.file        & estimated file size in kbyte \\
+\hline
+thumbnail\_url                        &                                   & meta.ref.url; meta.preview  & URL of a thumbnail image with predefined size \\
+\hline
+datalink\_url                         &                                   & meta.ref.url; meta.datalink & Provides links to files or services on the server \\
+\hline
+processing\_level                     & 5                                 & meta.calibLevel             & Dataset-related encoding \\
+\hline
+processing\_level\_desc               & CODMAC (Derived Data Record)      & meta.note                   & Describes specificities of the processing level \\
+\hline
+target\_region                        & solar-corona                      & obs.field                   & Type of region or feature of interest \\
+\hline
+feature\_name                         & coronal hole                      & obs.field                   & Secondary name (e.g. standard name of a region of interest) \\
+\hline
+publisher                             & Royal Observatory of Belgium      & meta.curation               & Resource publisher \\
+\hline
+spatial\_coordinate\_description      & HPC                               & meta.code.class; pos.frame  & ID of specific coordinate system and version / properties \\
+\hline
+spatial\_origin                       & HELIOCENTER                       & meta.ref; pos.frame         & Defines the frame origin \\
+\hline
+time\_scale                           & UTC                               & time.scale                  & Always UTC in data services \\
+\hline
+target\_distance\_min                 &                                   & pos.distance; stat.min      & Min observer-target distance \\
+\hline
+target\_distance\_max                 &                                   & pos.distance; stat.max      & Max observer-target distance \\
+\hline
+observer\_lon                         &                                   & obs.observer; pos.bodyrc.lon & Observer's heliographic longitude \\
+\hline
+observer\_lat                         &                                   & obs.observer; pos.bodyrc.lat & Observer's heliographic latitude \\
+\hline
+
+\caption{Global EPN-TAP parameters.  Parameters in   \textcolor{red}{red} are mandatory and a value is required}
+\label{tab:epn_param}
+\end{longtable}
+
+The feature recognition method has a range of parameters:
+For example for the classification:
+\begin{verbatim}
+#  NAR=zz.z (Nullify pixels above zz.z*radius)
+#  ALC (Annulus Limb Correction)
+#  TakeSqrt (Take the square root)
+#  ThrMaxPer=zz.z (Threshold intensities to maximum the zz.z percentile)
+imagePreprocessing = NAR=1.2,ALC,ThrMaxPer=80,TakeSqrt
+
+# The number of previous centers to take into account for the median computation of final centers.
+#numberPreviousCenters = 10
+# Version tested on 1 oct 2022: we use fixed centers, computed over 2011-2022 included.
+
+# The type of classifier to use for the classification.
+# Possible values: FCM, PFCM, PCM, PCM2, SPoCA, SPoCA2, HFCM(Histogram FCM), HPFCM(Histogram PFCM), HPCM(Histogram PCM), HPCM2(Histogram PCM2)
+type = FCM
+
+# The size of the bins of the histogram. : We use FCM, not HFCM, hence no binsize
+
+# The maximal number of iteration for the classification.
+maxNumberIteration = 100
+
+# The number of classes to classify the sun images into.
+numberClasses = 4
+
+# The precision to be reached to stop the classification.
+precision = 0.0015
+\end{verbatim}
+
+Question: This information helps to understand the way the catalog was created ( provenance information), but how should it be encoded in a TAP service?
+
+{Correction for degradation of SDO/AIA instrument}. For the statistics on AIA pixel intensity value to be meaningful over time, it is necessary to correct the instrument for degradation.
+The degradation factor (spatially invariant) can be corrected for using the 'degradation' function un aiapy:
+\url{https://aiapy.readthedocs.io/en/stable/generated/gallery/correct_degradation.html}
+In IDL, this is done using the
+\lq AIA\_GET\_RESPONSE' function.  One should use V10 of degradation factor, see \url{https://hesperia.gsfc.nasa.gov/ssw/sdo/aia/response/V10_release_notes.txt}
+
+
+\section{granule\_uid, granule\_gid, obs\_id}
+In EPNCore, the following parameters must be given:
+\begin{itemize}
+\item granule\_gid: Group identifier, identical for similar data products 	N/A 	meta.id
+\item granule\_uid 		Granule unique identifier, provides direct access
+\item obs\_id:  	Identical for data products related to the same original data
+\end{itemize}
+Each CH detection is tracked and receives a color (which correspond to a pixel value in the CH maps). To construct the unique identifier, we propose the following:
+
+Say that  198  is the \lq color' of CH in the CHmap,  stable over time thanks to tracking, and
+20100112\_120000 is the detection date (YYYYMMDD\_HHMMSS). Then we propose to gather in granule\_gid {\bf{all the detection of a same CH}} (which are characterized by a same pixel value or 'color' in the CH map). Hence at 12:00:00 we have a detection:
+\begin{itemize}
+\item granule\_uid: spoca\_coronalhole\_198\_20100112\_120000 : indicates the CH and the time
+\item granule\_gid: spoca\_coronalhole\_198 : indicates only the CH
+\item obs\_id: aia\_193\_20100112\_120000  : with this indication, it is possible to find back the original AIA 193 $\AA$ image. (Lots of website are providing AIA data).
+\end{itemize}
+At the next detection (four hours later), we would have:
+\begin{itemize}
+\item granule\_uid: spoca\_coronalhole\_198\_20100112\_160000
+\item granule\_gid: spoca\_coronalhole\_198
+\item obs\_id: aia\_193\_20100112\_160000
+\end{itemize}
+
+\section{SPoCA parameters information}
+
+The spatial coordinate system used id Helioprojective cartesian (which is actually a spherical coordinate system with the observer at the center).
+
+
+\begin{longtable}{|p{5cm}|p{2.5cm}|p{6.5cm}|}
+\hline
+TAP name                       & UCD                          &  description \\
+\hline
+time\_min                      & time.start; obs              & start time of observation in Julian Date \\
+\hline
+time\_max                      & time.end; obs                & end time of observation in Julian Date \\
+\hline
+ch\_c1\_centroid               & pos.centroid; pos.eq.ra       & Longitude of the centroid of the coronal hole \\
+\hline
+ch\_c1\_centroid               & pos.centroid; pos.eq.dec      & Latitude of the centroid of the coronal hole \\
+\hline
+c1min                          & pos.eq.ra; stat.min           & Min longitude of bounding box \\
+\hline
+c1max                          & pos.eq.ra; stat.max           & Max longitude of bounding box \\
+\hline
+c2min                          & pos.eq.dec; stat.min          & Min latitude of bounding box \\
+\hline
+c2max                          & pos.eq.dec; stat.max          & Max latitude of bounding box \\
+\hline
+ch\_area\_projected            & phys.area                    & Area of the coronal hole as seen by the observer \\
+\hline
+ch\_area\_projected\_error     & phys.area; stat.error        & Uncertainety of the area of the coronal hole as seen by the observer \\
+\hline
+ch\_area\_deprojected          & phys.area                    & Estimation of the area of the coronal hole on the solar photosphere \\
+\hline
+ch\_area\_deprojected\_error   & phys.area; stat.error        & Uncertainety of the estimation of the area of the coronal hole on the solar photosphere \\
+\hline
+ch\_area\_pixels               & phys.area; instr.pixel       & Number of pixels of the cornal hole in the map \\
+\hline
+ch\_stat\_aia\_image           & obs.image                    & Image onto which statistics are computed \\
+\hline
+ch\_stat\_aia\_sample\_size    & meta.number; instr.pixel     & number of pixel pertaining to the CH in ch\_stat\_aia\_image\_channel \\
+\hline
+ch\_stat\_aia\_max             & phys.count; stat.max         & Maximum intensity values of pixel within CH \\
+\hline
+ch\_stat\_aia\_min             & phys.count; stat.min         & Minimum intensity values of pixel within CH \\
+\hline
+ch\_stat\_aia\_mean            & phys.count; stat.mean        & \\
+\hline
+ch\_stat\_aia\_median          & phys.count; stat.median      & \\
+\hline
+ch\_stat\_aia\_variance        & phys.count; stat.variance    & \\
+\hline
+ch\_stat\_aia\_skewness        & phys.count; stat.skewness        & \\
+\hline
+ch\_stat\_aia\_kurtosis        & phys.count; stat.kurtosis    & \\
+\hline
+ch\_stat\_aia\_first\_quartile & phys.count; stat.rank        & \\
+\hline
+ch\_stat\_aia\_third\_quartile & phys.count; stat.rank        & \\
+\hline
+ch\_stat\_hmi\_image           & obs.image                    & Image onto which statistics are computed \\
+\hline
+ch\_stat\_hmi\_sample\_size    & meta.number; instr.pixel     & number of pixel pertaining to CH in ch\_stat\_hmi\_image\_channel \\
+\hline
+ch\_stat\_hmi\_max             & phys.magField; stat.max      & Maximum value of magnetic field in HMI \\
+\hline
+ch\_stat\_hmi\_min             & phys.magField; stat.min      & Minimum value of magnetic field in HMI \\
+\hline
+ch\_stat\_hmi\_median          & phys.magField; stat.median   & \\
+\hline
+ch\_stat\_hmi\_mean            & phys.magField; stat.mean     & \\
+\hline
+ch\_stat\_hmi\_variance        & phys.magField; stat.variance & \\
+\hline
+ch\_stat\_hmi\_skewness        & phys.magField; stat.skewness     & \\
+\hline
+ch\_stat\_hmi\_kurtosis        & phys.magField; stat.kurtosis & \\
+\hline
+ch\_stat\_hmi\_first\_quartile & phys.magField; stat.rank     & \\
+\hline
+ch\_stat\_hmi\_third\_quartile & phys.magField; stat.rank     & \\
+\hline
+\end{longtable}
+Other elements that are in the EventDB, and that maybe we should add (?):
+RunTime, Version Nb, ImageTime
+
+\newpage
+\section{Tracking table}
+
+We would like to have a second table with tracking information. We code with three information:
+\begin{enumerate}
+\item detection Id of previous detection
+\item detection Id of next detection
+\item number of pixel that overlap the two detection (after de-rotation). If a CH is split into two parts, then the CH which has the greatest overlap receives the 'color' of the previous CH.
+\end{enumerate}
+
+This is an example of a splitting:
+
+\begin{table} [h]
+%\begin{adjustbox}{angle=90}
+%  \begin{table}[h!]
+  \begin{tabular}{|p{6cm}|p{6cm}|p{1.5cm}|}
+\hline
+previous   & next &   overlap\\
+\hline \hline
+spoca\_coronalhole\_198\_20100112 \_120000&
+spoca\_coronalhole\_198\_20100112 \_160000 &300px \\ \hline
+spoca\_coronalhole\_198\_20100112 \_120000&
+spoca\_coronalhole\_200\_20100112 \_160000 &100px \\ \hline
+\end{tabular}
+\end{table}
+
+
+Here is an example when two CH get merged:
+
+\begin{table} [h]
+%\begin{adjustbox}{angle=90}
+%  \begin{table}[h!]
+  \begin{tabular}{|p{6cm}|p{6cm}|p{1.5cm}|}
+\hline
+\hline
+previous   & next &   overlap\\ \hline \hline
+spoca\_coronalhole\_198\_20100112 \_160000 &
+spoca\_coronalhole\_198\_20100112 \_200000 &250px\\ \hline
+spoca\_coronalhole\_200\_20100112 \_160000 &
+spoca\_coronalhole\_198\_20100112 \_200000 & 50px \\ \hline
+\end{tabular}
+\end{table}
+
+
+
+\begin{verbatim}
+Granule_uid: spoca_coronalhole_198_20100112_120000
+Granule_gid: spoca_coronalhole_198
+Obs_id: aia_193_20100112_120000
+
+4h plus tard
+
+Granule_uid: spoca_coronalhole_198_20100112_160000
+Dranule_gid: spoca_coronalhole_198
+Obs_id: aia_193_20100112_160000
+
+
+Granule_uid: spoca_coronalhole_200_20100112_160000
+Granule_gid: spoca_coronalhole_200
+Obs_id: aia_193_20100112_160000
+
+
+4h plus tard
+
+Granule_uid: spoca_coronalhole_198_20100112_200000
+Dranule_gid: spoca_coronalhole_198
+Obs_id: aia_193_20100112_200000
+
+Split
+
+T0                T1
+
+CH 198    --300->        CH 198
+          --100->        CH 200
+
+Previous                               Next                                  Overlap
+spoca_coronalhole_198_20100112_120000  spoca_coronalhole_198_20100112_160000 300px
+
+spoca_coronalhole_198_20100112_120000  spoca_coronalhole_200_20100112_160000 100px
+
+
+Merge
+
+T1                T2
+
+CH 198    --250->    CH 198
+CH 200    --50->
+
+previous    next    overlap
+spoca_coronalhole_198_20100112_160000
+spoca_coronalhole_198_20100112_200000 250px
+spoca_coronalhole_200_20100112_160000
+spoca_coronalhole_198_20100112_200000 50px
+
+
+\end{verbatim}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
