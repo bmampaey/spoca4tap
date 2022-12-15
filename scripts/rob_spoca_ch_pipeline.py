@@ -14,7 +14,7 @@ from get_overlay_image import get_overlay_image
 from get_epn_core_tap_parameters import get_epn_core_tap_parameters_from_file
 from get_tracking_tap_parameters import get_tracking_tap_parameters_from_file
 from get_datalink_tap_parameters import get_datalink_tap_parameters
-from utils import date_range, get_config, date_to_filename, date_from_filename, write_tap_parameters_to_csv, save_activity_provenance
+from utils import date_range, get_config, date_to_filename, date_from_filename, write_tap_parameters_to_csv, save_activity_log
 
 
 def create_segmentation_maps(aia_images, config):
@@ -214,7 +214,7 @@ def extract_datalink_tap_parameters(epn_core_tap_parameters, overlay_images, sta
 			aia_image = stat_images.get(date, {}).get('aia_image')
 			hmi_image = stat_images.get(date, {}).get('hmi_image')
 			# TODO use the actual provenance file
-			provenance = '{date}.provenance.json'.format(date=date_to_filename(date))
+			provenance = '{date}.provenance.json'.format(date = date_to_filename(date))
 			
 			try:
 				jobs[date] = pool.apply_async(get_datalink_tap_parameters, (granule_uids, overlay_image, aia_image, hmi_image, provenance, config))
@@ -267,7 +267,7 @@ if __name__ == '__main__':
 	# Parse the script config file
 	config = get_config(args.config_file)
 	
-	save_activity_provenance.output_directory = config.get('PROVENANCE', 'output_directory')
+	save_activity_log.output_directory = config.get('LOGGING', 'output_directory')
 	
 	# Setup the SDO data file lookup
 	aia_data = SdoData(

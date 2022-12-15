@@ -7,14 +7,14 @@ from utils import get_config, get_url, write_tap_parameters_to_csv
 __all__ = ['get_tracking_tap_parameters_from_file']
 
 
-def get_datalink_tap_parameters(granule_uids, overlay_image, aia_image, hmi_image, provenance, config):
+def get_datalink_tap_parameters(granule_uids, overlay_image, aia_image, hmi_image, provenance_document, config):
 	'''Extract the TAP parameters for the datalink table'''
 	tap_parameters = list()
 	
 	thumbnail_url = get_url(overlay_image, config.get('map_overlay_base_url'), config.get('map_overlay_base_dir', None))
 	ch_stat_aia_image_url = get_url(aia_image, config.get('aia_image_base_url'), config.get('aia_image_base_dir', None))
 	ch_stat_hmi_image_url = get_url(hmi_image, config.get('hmi_image_base_url'), config.get('hmi_image_base_dir', None))
-	provenance_url = get_url(provenance, config.get('provenance_base_url'), config.get('provenance_base_dir', None))
+	provenance_url = get_url(provenance_document, config.get('provenance_base_url'), config.get('provenance_base_dir', None))
 
 	
 	for granule_uid in granule_uids:
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 	parser.add_argument('overlay_image', metavar = 'FILEPATH', help = 'The file path to the overlay image of the cleaned SPoCA CH map')
 	parser.add_argument('aia_image', metavar = 'FILEPATH', help = 'The file path to AIA image used to compute the statistics')
 	parser.add_argument('hmi_image', metavar = 'FILEPATH', help = 'The file path to HMI image used to compute the statistics')
-	parser.add_argument('provenance', nargs='?', metavar = 'FILEPATH', help = 'The file path to the provenance of the cleaned SPoCA CH map')
+	parser.add_argument('provenance_document', nargs='?', metavar = 'FILEPATH', help = 'The file path to the provenance document of the cleaned SPoCA CH map')
 	
 	args = parser.parse_args()
 	
@@ -52,7 +52,7 @@ if __name__ == '__main__':
 	config = get_config(args.config_file)
 	
 	try:
-		tap_parameters = get_datalink_tap_parameters(args.granule_uid, args.overlay_image, args.aia_image, args.hmi_image, args.provenance, config['TAP_PARAMETERS'])
+		tap_parameters = get_datalink_tap_parameters(args.granule_uid, args.overlay_image, args.aia_image, args.hmi_image, args.provenance_document, config['TAP_PARAMETERS'])
 	except Exception as why:
 		logging.exception('Could not extract TAP parameters for granule uids %s: %s', args.granule_uid, why)
 		raise

@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 
 from job import Job, JobError
-from utils import get_config, date_to_filename, date_from_filename, save_activity_provenance
+from utils import get_config, date_to_filename, date_from_filename, save_activity_log
 
 __all__ = ['get_segmentation_map']
 
@@ -12,7 +12,7 @@ __all__ = ['get_segmentation_map']
 def get_activity_id(function_name, function_callargs):
 	return '%s.%s' % (function_name, date_to_filename(function_callargs['date']))
 
-@save_activity_provenance(get_activity_id)
+@save_activity_log(get_activity_id)
 def get_segmentation_map(date, images, config):
 	'''Execute the SPoCA attribution program on image FITS files to create a segmentation map'''
 	
@@ -69,7 +69,7 @@ if __name__ == '__main__':
 	# Parse the script config file
 	config = get_config(args.config_file)
 	
-	save_activity_provenance.output_directory = config.get('PROVENANCE', 'output_directory')
+	save_activity_log.output_directory = config.get('LOGGING', 'output_directory')
 	
 	try:
 		segmentation_map = get_segmentation_map(date_from_filename(args.images[0]), args.images, config['GET_SEGMENTATION_MAP'])

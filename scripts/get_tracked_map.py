@@ -3,14 +3,14 @@ import logging
 import argparse
 
 from job import Job, JobError
-from utils import get_config, date_to_filename, date_from_filename, save_activity_provenance
+from utils import get_config, date_to_filename, date_from_filename, save_activity_log
 
 __all__ = ['get_tracked_map']
 
 def get_activity_id(function_name, function_callargs):
 	return '%s.%s-%s' % (function_name, date_to_filename(date_from_filename(function_callargs['untracked_maps'][0])), date_to_filename(date_from_filename(function_callargs['untracked_maps'][-1])))
 
-@save_activity_provenance(get_activity_id)
+@save_activity_log(get_activity_id)
 def get_tracked_map(tracked_maps, untracked_maps, config):
 	'''Execute the SPoCA tracking program on region maps'''
 	
@@ -49,7 +49,7 @@ if __name__ == '__main__':
 	# Parse the script config file
 	config = get_config(args.config_file)
 	
-	save_activity_provenance.output_directory = config.get('PROVENANCE', 'output_directory')
+	save_activity_log.output_directory = config.get('LOGGING', 'output_directory')
 	
 	try:
 		get_tracked_map(args.tracked_map, args.untracked_maps, config['GET_TRACKED_MAP'])

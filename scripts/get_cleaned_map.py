@@ -7,7 +7,7 @@ from pathlib import Path
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from utils import get_config, date_to_filename, date_from_filename, save_activity_provenance
+from utils import get_config, date_to_filename, date_from_filename, save_activity_log
 from SPoCA.scripts.clean_map_of_shortlived_regions import clean_map
 from get_longlived_regions_colors import read_regions_colors
 
@@ -16,7 +16,7 @@ __all__ = ['get_cleaned_map']
 def get_activity_id(function_name, function_callargs):
 	return '%s.%s' % (function_name, date_to_filename(function_callargs['date']))
 
-@save_activity_provenance(get_activity_id)
+@save_activity_log(get_activity_id)
 def get_cleaned_map(date, region_map, longlived_regions_colors, config):
 	'''Clean a region map to only keep the long lived regions'''
 	
@@ -43,7 +43,7 @@ if __name__ == '__main__':
 	# Parse the script config file
 	config = get_config(args.config_file)
 	
-	save_activity_provenance.output_directory = config.get('PROVENANCE', 'output_directory')
+	save_activity_log.output_directory = config.get('LOGGING', 'output_directory')
 	
 	try:
 		longlived_regions_colors = read_regions_colors(args.regions_colors)

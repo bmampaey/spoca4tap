@@ -11,7 +11,7 @@ from urllib.parse import urljoin
 from functools import wraps
 
 
-__all__ = ['date_range', 'get_config', 'date_to_filename', 'date_from_filename', 'get_url', 'get_commit_version', 'write_tap_parameters_to_csv', 'save_activity_provenance']
+__all__ = ['date_range', 'get_config', 'date_to_filename', 'date_from_filename', 'get_url', 'get_commit_version', 'write_tap_parameters_to_csv', 'save_activity_log']
 
 def date_range(start, end, step):
 	'''Equivalent to range for date'''
@@ -65,8 +65,8 @@ def write_tap_parameters_to_csv(records, filepath):
 	Path(filepath).parent.mkdir(exist_ok = True)
 	DataFrame.from_records(records).to_csv(filepath, index = False)
 
-def save_activity_provenance(get_activity_id):
-	'''Decorator for a function that will save every call to a function and the call arguments to a json file'''
+def save_activity_log(get_activity_id):
+	'''Decorator for a function that will record every call to a function and the call arguments to a JSON file to create provenance documentation'''
 	
 	def json_encoder(value):
 		if isinstance(value, configparser.SectionProxy):
@@ -84,7 +84,7 @@ def save_activity_provenance(get_activity_id):
 		
 		@wraps(function)
 		def wrapper(*args, **kwargs):
-			output_directory = Path(save_activity_provenance.output_directory)
+			output_directory = Path(save_activity_log.output_directory)
 			output_directory.mkdir(exist_ok = True)
 			
 			function_output = function(*args, **kwargs)
@@ -108,4 +108,4 @@ def save_activity_provenance(get_activity_id):
 	
 	return decorator
 
-save_activity_provenance.output_directory = './provenance'
+save_activity_log.output_directory = './activity_log'
