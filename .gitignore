@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # SPoCA software suite but not the make files
-SPoCA/
+SPoCA/*
 !SPoCA/*.mk
