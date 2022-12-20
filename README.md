@@ -33,7 +33,7 @@ All the scripts expect configuration files :
 
 Notes:
  * The SPoCA software suite can be obtained at https://github.com/bmampaey/SPoCA, the above scripts expect the software to be installed in the SPoCA subfolder. The makefiles to build the necessary SPoCA programs are also located in the SPoCA subfolder.
- * Step 1 is done independently of this pipeline.
+ * Step 1 is done independently of this pipeline, but the scripts are included for documentation purpose.
  * The class centers used at step 3 are computed by taking the median of the class centers computed at step 2 over an 11 year period starting January 1st 2012
  * For step 2 to 7, activity logs are recorded to JSON files to create provenance documentation.
  * The TAP parameters from step 8 are written to CSV files.
