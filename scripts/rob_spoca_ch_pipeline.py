@@ -3,6 +3,7 @@ import logging
 import argparse
 import multiprocessing
 from datetime import datetime, timedelta
+from pathlib import Path
 
 from sdo_data import SdoData
 from get_segmentation_map import get_segmentation_map
@@ -255,7 +256,7 @@ if __name__ == '__main__':
 	parser.add_argument('--start-date', '-s', required = True, type = datetime.fromisoformat, help = 'Start date of AIA files (ISO 8601 format)')
 	parser.add_argument('--end-date', '-e', default = datetime.utcnow(), type = datetime.fromisoformat, help = 'End date of AIA files (ISO 8601 format)')
 	parser.add_argument('--interval', '-i', default = 6, type = int, help = 'Number of hours between two results')
-	parser.add_argument('--tracked-ch-maps', '-m', metavar = 'FILEPATH', nargs = '*', default = [], help = 'The path to a previously tracked ch map to establish tracking relations with the past')
+	parser.add_argument('--tracked-ch-maps', '-m', metavar = 'FILEPATH', nargs = '*', default = [], type = Path, help = 'The path to a previously tracked ch map to establish tracking relations with the past')
 	parser.add_argument('--regions-colors', '-r', metavar = 'FILEPATH', default = 'longlived_regions_colors.txt', help = 'The path to a file with the list of regions color numbers for which to extract TAP parameters (default is longlived_regions_colors.txt)')
 	
 	
