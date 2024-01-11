@@ -114,7 +114,7 @@ class SdoData:
 if __name__ == '__main__':
 	
 	# Default value for the aia-file-pattern argument valid for the spoca.oma.be server
-	AIA_FILE_PATTERN = '/scratch/benjmam/aia_science_level2/{wavelength:04d}/{date.year:04d}/{date.month:02d}/{date.day:02d}/AIA.{date.year:04d}{date.month:02d}{date.day:02d}_{date.hour:02d}*.{wavelength:04d}.*.fits'
+	AIA_FILE_PATTERN = '/data/sdo/aia_science_level2/{wavelength:04d}/{date:%Y/%m/%d}/aia_science_level2.{wavelength:04d}.{date:%Y%m%d_%H}*.fits'
 	
 	parser = argparse.ArgumentParser(description='Prints AIA FITS filepaths for the specified date and wavelength')
 	parser.add_argument('--verbose', '-v', choices = ['DEBUG', 'INFO', 'ERROR'], default = 'INFO', help='Set the logging level (default is INFO)')
