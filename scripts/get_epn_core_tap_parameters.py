@@ -106,14 +106,22 @@ def get_epn_core_tap_parameters_from_file(tracked_map, cleaned_map, overlay_imag
 
 def get_epn_core_tap_parameters_from_map(map):
 	'''Extract the TAP parameters from a a sunpy Map'''
+	# To specify the spacecratf position we should use the observer_lon and observer_lat,
+	# but those are only acceptable for geoposition so misuse instead the subobserver_longitude
+	# and subobserver_latitude
+	spacecraft_longitude = map.heliographic_longitude.to(units.degree).value
+	spacecraft_latitude = map.heliographic_latitude.to(units.degree).value
+	
 	return {
 		'obs_id': 'aia_193_{date_obs}'.format(date_obs = map.date.strftime('%Y%m%d_%H%M%S')), # e.g. aia_193_20100112_160000
 		'time_min': map.date.jd, # Map date is an astopy time.Time, convert the date to Julian
 		'time_max': map.date.jd,
 		'target_distance_min': map.dsun.to(units.kilometer).value, # spacecraft-target distance in km
 		'target_distance_max': map.dsun.to(units.kilometer).value,
-		'observer_lon': map.heliographic_longitude.to(units.degree).value, # spacecratf position in degrees
-		'observer_lat': map.heliographic_latitude.to(units.degree).value,
+		'subobserver_longitude_min': spacecraft_longitude,
+		'subobserver_longitude_max': spacecraft_longitude, 
+		'subobserver_latitude_min': spacecraft_latitude,
+		'subobserver_latitude_max': spacecraft_latitude,
 	}
 
 
