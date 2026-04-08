@@ -4,7 +4,6 @@
 
 On the sdo3 server, run the following commands
 
-
 ``` bash
 sdo /opt/scripts/download_aia_science.py --wavelength 193 --start-date 2025-02-01 --end-date 2026-02-01 --cadence "6 h" --time-margin "1 h"
 
@@ -17,22 +16,21 @@ On the yama server, run the following commands
 
 ``` bash
 for m in {02..12}; do
-   /home/benjmam/sdo-preprocessing/get_aia_science_level2.py --output-directory /scratch/benjmam/data/aia_science_level2/0193/ /data/SDO/AIA_HMI_1h_synoptic/aia.lev1/0193/2025/$m/*/*.fits &> get_aia_science_level2.2025.$m.log &
+   /home/benjmam/sdo-preprocessing/get_aia_science_level2.py --output-directory /scratch/benjmam/data/aia_science_level2/0193/ /data/sdo/aia_science_level1/0193/2025/$m/*/*.fits &> get_aia_science_level2.2025.$m.log &
 done
 
-/home/benjmam/sdo-preprocessing/get_aia_science_level2.py --output-directory /scratch/benjmam/data/aia_science_level2/0193/ /data/SDO/AIA_HMI_1h_synoptic/aia.lev1/0193/2026/01/*/*.fits &> get_aia_science_level2.2026.01.log
+/home/benjmam/sdo-preprocessing/get_aia_science_level2.py --output-directory /scratch/benjmam/data/aia_science_level2/0193/ /data/sdo/aia_science_level1/0193/2026/01/*/*.fits &> get_aia_science_level2.2026.01.log
 
 for m in {02..12}; do
-   /home/benjmam/sdo-preprocessing/get_hmi_science_level1_5.py --output-directory /scratch/benjmam/data/hmi_science_level1_5/magnetogram/ /data/SDO/AIA_HMI_1h_synoptic/hmi.m_45s/2025/$m/*/*.fits &> get_hmi_science_level1_5.2025.$m.log &
+   /home/benjmam/sdo-preprocessing/get_hmi_science_level1_5.py --output-directory /scratch/benjmam/data/hmi_science_level1_5/magnetogram/ /data/sdo/hmi_science_level1/magnetogram/2025/$m/*/*.fits &> get_hmi_science_level1_5.2025.$m.log &
 done
 
-/home/benjmam/sdo-preprocessing/get_hmi_science_level1_5.py --output-directory /scratch/benjmam/data/hmi_science_level1_5/magnetogram/ /data/SDO/AIA_HMI_1h_synoptic/hmi.m_45s/2026/01/*/*.fits &> get_hmi_science_level1_5.2026.01.log
+/home/benjmam/sdo-preprocessing/get_hmi_science_level1_5.py --output-directory /scratch/benjmam/data/hmi_science_level1_5/magnetogram/ /data/sdo/hmi_science_level1/magnetogram/2026/01/*/*.fits &> get_hmi_science_level1_5.2026.01.log
 ```
 
 ## Copy the preprocessed SDO files to the sdo3 server
 
 On the yama server, run the following commands
-
 
 ``` bash
 ssh sdo3  'sudo mkdir /data/sdo/aia_science_level2/0193/2025 && sudo chown benjmam: /data/sdo/aia_science_level2/0193/2025'
